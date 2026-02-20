@@ -195,7 +195,7 @@ function QuizPage({ onBack }: { onBack: () => void }) {
             <p className="quiz-result-advice">{quizResults[result].advice}</p>
             <div className="quiz-result-actions">
               <a href="#pricing" className="btn-primary" onClick={(e) => { e.preventDefault(); onBack(); setTimeout(() => { document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' }) }, 100) }}>
-                Get The 21-Day Reset — Only €27
+                Join The Waitlist — Launching Soon
               </a>
               <button className="btn-outline" onClick={() => { setResult(null); setCurrent(0); setAnswers([]); setFadeState('in') }}>
                 Retake Quiz
@@ -208,10 +208,141 @@ function QuizPage({ onBack }: { onBack: () => void }) {
   )
 }
 
+/* ───── Legal Pages ───── */
+type LegalPage = 'refund' | 'terms' | 'privacy'
+
+function LegalPageView({ page, onBack }: { page: LegalPage; onBack: () => void }) {
+  const content: Record<LegalPage, { title: string; sections: { heading: string; text: string }[] }> = {
+    refund: {
+      title: 'Refund Policy',
+      sections: [
+        {
+          heading: '14-Day Money-Back Guarantee',
+          text: 'We stand behind our products. If you are not satisfied with your purchase, you may request a full refund within 14 days of the original purchase date — no questions asked.',
+        },
+        {
+          heading: 'How to Request a Refund',
+          text: 'Simply email us at support@21day-breakthrough.com with your order confirmation or the email address you used to purchase. We will process your refund within 5–7 business days.',
+        },
+        {
+          heading: 'Eligibility',
+          text: 'Refunds are available for all products purchased directly through our website. After the 14-day window, purchases are considered final. We reserve the right to deny refund requests that appear fraudulent or abusive.',
+        },
+        {
+          heading: 'Chargebacks',
+          text: 'If you have an issue with your purchase, please contact us first at support@21day-breakthrough.com before initiating a chargeback with your bank. We are committed to resolving any concerns quickly and fairly.',
+        },
+      ],
+    },
+    terms: {
+      title: 'Terms of Service',
+      sections: [
+        {
+          heading: 'Overview',
+          text: 'By purchasing or accessing any product from 21-Day Breakthrough ("we", "us", "our"), you agree to the following terms. Please read them carefully before making a purchase.',
+        },
+        {
+          heading: 'Products & Delivery',
+          text: 'We sell digital self-help education products including ebooks and online programs. All products are delivered electronically. Upon successful payment, you will receive instant access to your purchase via download link or online access. We do not ship physical goods.',
+        },
+        {
+          heading: 'Educational Disclaimer',
+          text: 'Our products are for educational and informational purposes only. They are not a substitute for professional medical advice, diagnosis, therapy, or treatment. If you are experiencing a mental health crisis, please contact a licensed professional or emergency services. We make no guarantees of specific results — outcomes depend on individual effort and circumstances.',
+        },
+        {
+          heading: 'Intellectual Property',
+          text: 'All content, including text, videos, workbooks, and templates, is the intellectual property of 21-Day Breakthrough. Your purchase grants you a personal, non-transferable licence to use the materials. You may not resell, redistribute, copy, or share any product with third parties.',
+        },
+        {
+          heading: 'Payment & Pricing',
+          text: 'All payments are processed securely through Stripe. Prices are listed in USD and may be subject to change. Promotional pricing is available for a limited time at our discretion.',
+        },
+        {
+          heading: 'Limitation of Liability',
+          text: 'To the fullest extent permitted by law, 21-Day Breakthrough shall not be liable for any indirect, incidental, or consequential damages arising from the use of our products.',
+        },
+        {
+          heading: 'Contact',
+          text: 'For questions about these terms, contact us at support@21day-breakthrough.com.',
+        },
+      ],
+    },
+    privacy: {
+      title: 'Privacy Policy',
+      sections: [
+        {
+          heading: 'Information We Collect',
+          text: 'When you make a purchase, we collect your name, email address, and payment information. Payment details are processed directly by Stripe — we do not store your card number or financial data on our servers.',
+        },
+        {
+          heading: 'How We Use Your Information',
+          text: 'We use your information to: deliver your purchased products, send order confirmations and access details, respond to support requests, and send occasional updates about new products (you can unsubscribe at any time).',
+        },
+        {
+          heading: 'Third-Party Services',
+          text: 'We use Stripe to process payments. Stripe\'s privacy policy governs how they handle your payment information. We do not sell, trade, or rent your personal information to any third parties.',
+        },
+        {
+          heading: 'Data Security',
+          text: 'We take reasonable measures to protect your personal information. All transactions are encrypted via SSL/TLS. However, no method of transmission over the internet is 100% secure.',
+        },
+        {
+          heading: 'Your Rights',
+          text: 'You may request access to, correction of, or deletion of your personal data at any time by emailing support@21day-breakthrough.com. We will respond to your request within 30 days.',
+        },
+        {
+          heading: 'Cookies',
+          text: 'Our website may use minimal cookies for analytics and functionality. No third-party advertising cookies are used.',
+        },
+        {
+          heading: 'Changes to This Policy',
+          text: 'We may update this privacy policy from time to time. Changes will be posted on this page with an updated effective date.',
+        },
+        {
+          heading: 'Contact',
+          text: 'For privacy-related questions, contact us at support@21day-breakthrough.com.',
+        },
+      ],
+    },
+  }
+
+  const { title, sections } = content[page]
+
+  return (
+    <div className="legal-page">
+      <div className="noise" />
+      <nav className="nav scrolled">
+        <div className="nav-inner">
+          <a href="#" className="nav-logo" onClick={(e) => { e.preventDefault(); onBack() }}>
+            <img src="/logo.png" alt="21-Day Breakthrough" />
+          </a>
+          <button className="nav-cta" onClick={onBack}>Back to Home</button>
+        </div>
+      </nav>
+      <div className="legal-content">
+        <h1>{title}</h1>
+        <p className="legal-updated">Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+        {sections.map((s, i) => (
+          <div key={i} className="legal-block">
+            <h2>{s.heading}</h2>
+            <p>{s.text}</p>
+          </div>
+        ))}
+        <div className="legal-back">
+          <button className="btn-outline" onClick={onBack}>Back to Home</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ───── App ───── */
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [showQuiz, setShowQuiz] = useState(false)
+  const [showLegal, setShowLegal] = useState<LegalPage | null>(null)
+  const [email, setEmail] = useState('')
+  const [submitted, setSubmitted] = useState(false)
   const countdown = useCountdown()
 
   useEffect(() => {
@@ -221,6 +352,10 @@ export default function App() {
   }, [])
 
   const pad = (n: number) => String(n).padStart(2, '0')
+
+  if (showLegal) {
+    return <LegalPageView page={showLegal} onBack={() => { setShowLegal(null); window.scrollTo(0, 0) }} />
+  }
 
   if (showQuiz) {
     return <QuizPage onBack={() => { setShowQuiz(false); window.scrollTo(0, 0) }} />
@@ -236,14 +371,14 @@ export default function App() {
           <a href="#" className="nav-logo">
             <img src="/logo.png" alt="21-Day Breakthrough" />
           </a>
-          <a href="#pricing" className="nav-cta">Get Access</a>
+          <a href="#pricing" className="nav-cta">Join Waitlist</a>
         </div>
       </nav>
 
       {/* HERO */}
       <section className="hero">
         <div className="hero-content">
-          <Reveal><div className="hero-label">Special Offer</div></Reveal>
+          <Reveal><div className="hero-label">Launching Soon</div></Reveal>
           <Reveal delay={80}><h1>21-Day Attachment Reset</h1></Reveal>
           <Reveal delay={160}><p className="hero-tagline">Heal your patterns, calm your mind</p></Reveal>
           <Reveal delay={240}>
@@ -253,7 +388,7 @@ export default function App() {
           </Reveal>
           <Reveal delay={320}>
             <div className="countdown-wrapper">
-              <div className="countdown-label">Limited-time launch pricing ends in</div>
+              <div className="countdown-label">Doors open in</div>
               <div className="countdown">
                 <div className="countdown-item">
                   <span className="countdown-number">{pad(countdown.days)}</span>
@@ -279,15 +414,13 @@ export default function App() {
           </Reveal>
           <Reveal delay={400}>
             <div className="hero-buttons">
-              <a href="#pricing" className="btn-primary">Get Instant Access — Only €27</a>
+              <a href="#pricing" className="btn-primary">Join The Waitlist</a>
               <a href="#program" className="btn-outline">Learn More</a>
             </div>
             <div className="hero-trust">
-              <span>14-day money-back guarantee</span>
+              <span>Be first to get launch pricing</span>
               <span className="trust-dot" />
-              <span>Secure checkout</span>
-              <span className="trust-dot" />
-              <span>Instant access</span>
+              <span>Free — no spam</span>
             </div>
           </Reveal>
         </div>
@@ -589,21 +722,88 @@ export default function App() {
       {/* FINAL CTA */}
       <section className="final-cta" id="pricing">
         <div className="final-cta-inner">
-          <Reveal><div className="section-label">Limited-Time Launch Pricing</div></Reveal>
-          <Reveal delay={80}><h2>Ready to Feel Emotionally Free in 21 Days?</h2></Reveal>
-          <Reveal delay={160}>
-            <div className="pricing-card">
-              <span className="pricing-old">€67</span>
-              <span className="pricing-new">€27</span>
-              <span className="pricing-period">today only</span>
-              <span className="pricing-save">You're saving €40</span>
+          <Reveal><div className="section-label">Launching Soon</div></Reveal>
+          <Reveal delay={80}><h2>Choose Your Path to Healing</h2></Reveal>
+          <Reveal delay={120}>
+            <p className="pricing-subtitle">Two options to fit your journey — available at launch.</p>
+          </Reveal>
+          <div className="pricing-grid">
+            <Reveal delay={160}>
+              <div className="pricing-tier">
+                <div className="pricing-tier-header">
+                  <h3>The Mini Ebook</h3>
+                  <p className="pricing-tier-desc">A quick-start guide to understanding your attachment patterns and beginning your healing journey.</p>
+                </div>
+                <div className="pricing-tier-price">
+                  <span className="pricing-old">$14.99</span>
+                  <span className="pricing-new">$6.99</span>
+                </div>
+                <ul className="pricing-tier-features">
+                  <li>Attachment style breakdown</li>
+                  <li>Core healing exercises</li>
+                  <li>Instant PDF download</li>
+                </ul>
+                <span className="pricing-coming-soon">Coming Soon</span>
+              </div>
+            </Reveal>
+            <Reveal delay={240}>
+              <div className="pricing-tier featured">
+                <div className="pricing-tier-badge">Most Popular</div>
+                <div className="pricing-tier-header">
+                  <h3>The Full Protocol</h3>
+                  <p className="pricing-tier-desc">The complete 21-day system with video trainings, workbook, scripts, and all bonuses included.</p>
+                </div>
+                <div className="pricing-tier-price">
+                  <span className="pricing-old">$67</span>
+                  <span className="pricing-new">$27.99</span>
+                  <span className="pricing-save">Save $39</span>
+                </div>
+                <ul className="pricing-tier-features">
+                  <li>21-day daily plan</li>
+                  <li>6 focused video trainings</li>
+                  <li>PDF workbook &amp; trackers</li>
+                  <li>Scripts &amp; message templates</li>
+                  <li>All 4 bonuses included</li>
+                </ul>
+                <span className="pricing-coming-soon">Coming Soon</span>
+              </div>
+            </Reveal>
+          </div>
+          <Reveal delay={300}>
+            <div className="waitlist-wrapper">
+              <p className="waitlist-heading">Get notified when we launch</p>
+              {!submitted ? (
+                <form
+                  className="waitlist-form"
+                  onSubmit={(e) => {
+                    e.preventDefault()
+                    if (!email) return
+                    // TODO: Replace with your email service (Mailchimp, ConvertKit, etc.)
+                    console.log('Waitlist signup:', email)
+                    setSubmitted(true)
+                    setEmail('')
+                  }}
+                >
+                  <input
+                    type="email"
+                    className="waitlist-input"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                  <button type="submit" className="btn-amber waitlist-btn">Join The Waitlist</button>
+                </form>
+              ) : (
+                <div className="waitlist-success">
+                  <p className="waitlist-success-text">You're on the list!</p>
+                  <p className="waitlist-success-sub">We'll email you the moment doors open — with a special launch discount.</p>
+                </div>
+              )}
             </div>
           </Reveal>
-          <Reveal delay={240}>
-            <div>
-              <a href="#" className="btn-amber">Get Twenty One Now</a>
-              <p className="final-trust">Secure Checkout &middot; Instant Access &middot; Privacy Protected</p>
-            </div>
+          <Reveal delay={360}>
+            <p className="final-trust">No spam &middot; Unsubscribe anytime &middot; Launch discount for early subscribers</p>
           </Reveal>
         </div>
       </section>
@@ -612,6 +812,13 @@ export default function App() {
       <footer className="footer">
         <div className="footer-brand">
           <img src="/logo.png" alt="21-Day Breakthrough" />
+        </div>
+        <div className="footer-legal">
+          <a href="#" onClick={(e) => { e.preventDefault(); setShowLegal('refund'); window.scrollTo(0, 0) }}>Refund Policy</a>
+          <span className="footer-sep">&middot;</span>
+          <a href="#" onClick={(e) => { e.preventDefault(); setShowLegal('terms'); window.scrollTo(0, 0) }}>Terms of Service</a>
+          <span className="footer-sep">&middot;</span>
+          <a href="#" onClick={(e) => { e.preventDefault(); setShowLegal('privacy'); window.scrollTo(0, 0) }}>Privacy Policy</a>
         </div>
         <p className="footer-email">
           <a href="mailto:support@21day-breakthrough.com">support@21day-breakthrough.com</a>
